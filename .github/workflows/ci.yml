@@ -1,0 +1,38 @@
+name: Node.js CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [18.x, 20.x]
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ matrix.node-version }}
+    - name: Install dependencies
+      run: npm install
+    - name: Type check
+      run: npm run validate
+    - name: Build (if applicable)
+      run: |
+        if [ -f tsconfig.json ]; then
+          npm run build
+        fi
+    - name: Lint (if applicable)
+      run: |
+        if [ -f package.json ] && jq -e '.scripts.lint' package.json > /dev/null; then
+          npm run lint
+        else
+          echo "No lint script defined."
+        fi
