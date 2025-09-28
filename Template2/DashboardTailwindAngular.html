@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Modern Analytics</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+    <style>
+        [x-cloak] { display: none !important; }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <div x-data="dashboard()" x-cloak class="flex h-screen">
+        <!-- Sidebar -->
+        <aside class="w-64 bg-white shadow-sm border-r border-gray-200">
+            <div class="p-6">
+                <div class="flex items-center gap-3 mb-8">
+                    <div class="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center">
+                        <span class="text-white font-bold">📊</span>
+                    </div>
+                    <h1 class="text-xl font-bold text-gray-900">Analytics</h1>
+                </div>
+                
+                <nav class="space-y-2">
+                    <a href="#dashboard" class="flex items-center gap-3 px-3 py-2 bg-blue-50 text-blue-700 rounded-lg">
+                        <span>📈</span>
+                        <span>Dashboard</span>
+                    </a>
+                    <a href="#analytics" class="flex items-center gap-3 px-3 py-2 text-gray-600 hover:bg-gray-50 rounded-lg">
+                        <span>📊</span>
+                        <span>Analytics</span>
+                    </a>
+                    <a href="#users" class="flex items-center gap-3 px-3 py-2 text-gray-600 hover:bg-gray-50 rounded-lg">
+                        <span>👥</span>
+                        <span>Users</span>
+                    </a>
+                    <a href="#settings" class="flex items-center gap-3 px-3 py-2 text-gray-600 hover:bg-gray-50 rounded-lg">
+                        <span>⚙️</span>
+                        <span>Settings</span>
+                    </a>
+                </nav>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 overflow-auto">
+            <!-- Header -->
+            <header class="bg-white border-b border-gray-200 px-6 py-4">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h2 class="text-2xl font-bold text-gray-900">Dashboard</h2>
+                        <p class="text-gray-600">Welcome back! Here's your analytics overview.</p>
+                    </div>
+                    <div class="flex items-center gap-4">
+                        <button class="relative p-2 text-gray-400 hover:text-gray-600">
+                            <span class="text-lg">🔔</span>
+                            <span class="absolute top-0 right-0 w-2 h-2 bg-red-500 rounded-full"></span>
+                        </button>
+                        <div class="flex items-center gap-3">
+                            <div class="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center">
+                                <span class="text-white text-sm font-medium">JD</span>
+                            </div>
+                            <span class="text-sm font-medium text-gray-700">John Doe</span>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Dashboard Content -->
+            <div class="p-6">
+                <!-- Stats Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                    <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+                                <span class="text-blue-600 text-xl">👥</span>
+                            </div>
+                            <span class="text-green-600 text-sm font-medium">+12%</span>
+                        </div>
+                        <h3 class="text-gray-600 text-sm font-medium">Total Users</h3>
+                        <p class="text-2xl font-bold text-gray-900" x-text="stats.totalUsers"></p>
+                    </div>
+
+                    <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
+                                <span class="text-green-600 text-xl">💰</span>
+                            </div>
+                            <span class="text-green-600 text-sm font-medium">+8%</span>
+                        </div>
+                        <h3 class="text-gray-600 text-sm font-medium">Revenue</h3>
+                        <p class="text-2xl font-bold text-gray-900" x-text="stats.revenue"></p>
+                    </div>
+
+                    <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
+                                <span class="text-purple-600 text-xl">📦</span>
+                            </div>
+                            <span class="text-red-600 text-sm font-medium">-3%</span>
+                        </div>
+                        <h3 class="text-gray-600 text-sm font-medium">Orders</h3>
+                        <p class="text-2xl font-bold text-gray-900" x-text="stats.orders"></p>
+                    </div>
+
+                    <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center">
+                                <span class="text-orange-600 text-xl">📈</span>
+                            </div>
+                            <span class="text-green-600 text-sm font-medium">+24%</span>
+                        </div>
+                        <h3 class="text-gray-600 text-sm font-medium">Growth</h3>
+                        <p class="text-2xl font-bold text-gray-900" x-text="stats.growth"></p>
+                    </div>
+                </div>
+
+                <!-- Charts and Tables -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+                    <!-- Chart Area -->
+                    <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+                        <h3 class="text-lg font-semibold text-gray-900 mb-4">Analytics Overview</h3>
+                        <div class="h-64 bg-gray-50 rounded-lg flex items-center justify-center">
+                            <div class="text-center">
+                                <div class="text-4xl mb-2">📊</div>
+                                <p class="text-gray-500">Chart visualization area</p>
+                                <p class="text-sm text-gray-400">Integrate with Chart.js or similar</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Recent Activity -->
+                    <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+                        <h3 class="text-lg font-semibold text-gray-900 mb-4">Recent Activity</h3>
+                        <div class="space-y-4">
+                            <template x-for="activity in recentActivity" :key="activity.id">
+                                <div class="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
+                                    <div class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
+                                        <span class="text-blue-600 text-sm" x-text="activity.icon"></span>
+                                    </div>
+                                    <div class="flex-1">
+                                        <p class="text-sm font-medium text-gray-900" x-text="activity.action"></p>
+                                        <p class="text-xs text-gray-500" x-text="activity.time"></p>
+                                    </div>
+                                </div>
+                            </template>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Quick Actions</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <button @click="quickAction('newUser')" class="p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">
+                            <div class="text-center">
+                                <div class="text-2xl mb-2">👤</div>
+                                <p class="font-medium text-gray-900">Add User</p>
+                                <p class="text-sm text-gray-500">Create new user account</p>
+                            </div>
+                        </button>
+                        
+                        <button @click="quickAction('generateReport')" class="p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">
+                            <div class="text-center">
+                                <div class="text-2xl mb-2">📄</div>
+                                <p class="font-medium text-gray-900">Generate Report</p>
+                                <p class="text-sm text-gray-500">Create analytics report</p>
+                            </div>
+                        </button>
+                        
+                        <button @click="quickAction('settings')" class="p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">
+                            <div class="text-center">
+                                <div class="text-2xl mb-2">⚙️</div>
+                                <p class="font-medium text-gray-900">Settings</p>
+                                <p class="text-sm text-gray-500">Configure system</p>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        function dashboard() {
+            return {
+                stats: {
+                    totalUsers: '2,543',
+                    revenue: '$45,678',
+                    orders: '1,234',
+                    growth: '18.2%'
+                },
+                recentActivity: [
+                    {
+                        id: 1,
+                        icon: '👤',
+                        action: 'New user registered',
+                        time: '2 minutes ago'
+                    },
+                    {
+                        id: 2,
+                        icon: '💰',
+                        action: 'Payment received',
+                        time: '15 minutes ago'
+                    },
+                    {
+                        id: 3,
+                        icon: '📦',
+                        action: 'Order completed',
+                        time: '1 hour ago'
+                    },
+                    {
+                        id: 4,
+                        icon: '📊',
+                        action: 'Report generated',
+                        time: '2 hours ago'
+                    },
+                    {
+                        id: 5,
+                        icon: '⚙️',
+                        action: 'Settings updated',
+                        time: '3 hours ago'
+                    }
+                ],
+                quickAction(action) {
+                    console.log('Quick action:', action);
+                    // Add your action handlers here
+                    switch(action) {
+                        case 'newUser':
+                            alert('Add new user functionality');
+                            break;
+                        case 'generateReport':
+                            alert('Generate report functionality');
+                            break;
+                        case 'settings':
+                            alert('Settings panel');
+                            break;
+                    }
+                }
+            }
+        }
+    </script>
+</body>
+</html>

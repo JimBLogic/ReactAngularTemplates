@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UI Component Viewer</title>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { margin: 0; font-family: system-ui; background: #f8f9fa; }
+        .component-selector {
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .component-card {
+            background: white;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            cursor: pointer;
+            transition: box-shadow 0.2s ease;
+        }
+        .component-card:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        .status-badge {
+            display: inline-block;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            margin-left: 0.5rem;
+        }
+        .ready { background: #e3f2fd; color: #1976d2; }
+        .human { background: #fff3e0; color: #f57c00; }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+    <script type="text/babel">
+        const { useState } = React;
+        function ComponentSelector() {
+            const [selectedComponent, setSelectedComponent] = useState(null);
+            const components = [
+                { id: 'template1-dashboard', name: 'Template1 - Cyberpunk Dashboard', description: 'Dashboard with dark theme', status: 'Ready', file: 'Template1/DashboardTailwindReact.tsx', features: ['Dark Theme', 'i18n', 'Accessible'] },
+                { id: 'template2-dashboard', name: 'Template2 - Clean Dashboard', description: 'Modern dashboard with analytics', status: 'Ready', file: 'Template2/DashboardTailwindReact.tsx', features: ['Analytics', 'Modern UI', 'Performance'] },
+                { id: 'template3-dashboard', name: 'Template3 - Classic Dashboard', description: 'Elegant, robust, classic dashboard', status: 'Ready', file: 'Template3/DashboardClassicReact.tsx', features: ['Classic', 'Elegant', 'Robust'] },
+                { id: 'template1-auth', name: 'Template1 - Auth Form', description: 'Login form with dark styling', status: 'Ready', file: 'Template1/AuthFormTailwindReact.tsx', features: ['Auth', 'Dark Theme', 'Responsive', 'Secure'] },
+                { id: 'template2-auth', name: 'Template2 - Auth Form', description: 'Modern authentication form', status: 'Ready', file: 'Template2/AuthFormTailwindReact.tsx', features: ['Auth', 'Modern', 'Responsive'] },
+                { id: 'template3-auth', name: 'Template3 - Classic Auth Form', description: 'Elegant, robust, classic authentication form', status: 'Ready', file: 'Template3/AuthFormClassicReact.tsx', features: ['Classic', 'Elegant', 'Robust'] },
+                { id: 'template1-landing', name: 'Template1 - Landing Page', description: 'Futuristic, cyberpunk landing page', status: 'Ready', file: 'Template1/LandingPageTailwindReact.tsx', features: ['Landing', 'Cyberpunk', 'Animated'] },
+                { id: 'template2-landing', name: 'Template2 - Landing Page', description: 'Modern, clean landing page', status: 'Ready', file: 'Template2/LandingPageTailwindReact.tsx', features: ['Landing', 'Modern', 'Clean'] },
+                { id: 'template3-landing', name: 'Template3 - Classic Landing Page', description: 'Elegant, robust, classic landing page', status: 'Ready', file: 'Template3/LandingPageClassicReact.tsx', features: ['Classic', 'Elegant', 'Landing'] },
+                { id: 'template1-contact', name: 'Template1 - Contact Form', description: 'Contact form with dark styling', status: 'Ready', file: 'Template1/ContactFormTailwindReact.tsx', features: ['Contact', 'Dark Theme', 'Accessible'] },
+                { id: 'template2-contact', name: 'Template2 - Contact Form', description: 'Contact form with validation', status: 'Ready', file: 'Template2/ContactFormTailwindReact.tsx', features: ['Validation', 'Modern', 'Accessible'] },
+                { id: 'template3-contact', name: 'Template3 - Classic Contact Form', description: 'Elegant, robust, classic contact form', status: 'Ready', file: 'Template3/ContactFormClassicReact.tsx', features: ['Classic', 'Elegant', 'Contact'] },
+                { id: 'template1-profile', name: 'Template1 - Profile Page', description: 'User profile with dark styling', status: 'Ready', file: 'Template1/ProfileTailwindReact.tsx', features: ['Profile', 'Dark Theme', 'Accessible'] },
+                { id: 'template2-profile', name: 'Template2 - Profile Page', description: 'Modern user profile', status: 'Ready', file: 'Template2/ProfileTailwindReact.tsx', features: ['Profile', 'Modern', 'Accessible'] },
+                { id: 'template3-profile', name: 'Template3 - Classic Profile Page', description: 'Elegant, robust, classic user profile page', status: 'Ready', file: 'Template3/ProfileClassicReact.tsx', features: ['Classic', 'Elegant', 'Profile'] },
+                { id: 'template1-table', name: 'Template1 - Data Table', description: 'Data table with dark styling', status: 'Ready', file: 'Template1/TableTailwindReact.tsx', features: ['Table', 'Dark Theme', 'Accessible'] },
+                { id: 'template2-table', name: 'Template2 - Data Table', description: 'Modern data table', status: 'Ready', file: 'Template2/TableTailwindReact.tsx', features: ['Table', 'Modern', 'Accessible'] },
+                { id: 'template3-table', name: 'Template3 - Classic Data Table', description: 'Elegant, robust, classic data table', status: 'Ready', file: 'Template3/TableClassicReact.tsx', features: ['Classic', 'Elegant', 'Table'] }
+            ];
+            if (selectedComponent) {
+                return (
+                    <div style={{ height: '100vh', display: 'flex', flexDirection: 'column' }}>
+                        <div style={{ background: '#333', padding: '1rem 2rem', color: 'white', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                            <h2 style={{ margin: 0 }}>{selectedComponent.name}</h2>
+                            <button onClick={() => setSelectedComponent(null)} style={{ background: '#555', color: 'white', border: 'none', padding: '0.5rem 1rem', borderRadius: '4px', cursor: 'pointer' }}>Back</button>
+                        </div>
+                        <div style={{ flex: 1, padding: '2rem', background: '#f8f9fa' }}>
+                            <div style={{ background: 'white', borderRadius: '8px', padding: '2rem', height: 'calc(100% - 4rem)', overflow: 'auto', border: '1px solid #e0e0e0' }}>
+                                <h3>{selectedComponent.file}</h3>
+                                <p><strong>Description:</strong> {selectedComponent.description}</p>
+                                <div style={{ marginBottom: '1rem' }}>
+                                    <strong>Features:</strong>
+                                    <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap', marginTop: '0.5rem' }}>
+                                        {selectedComponent.features.map((feature, idx) => (
+                                            <span key={idx} style={{ background: '#e3f2fd', color: '#1976d2', padding: '0.25rem 0.5rem', borderRadius: '4px', fontSize: '0.875rem' }}>{feature}</span>
+                                        ))}
+                                    </div>
+                                </div>
+                                <div style={{ background: '#f5f5f5', border: '1px solid #ddd', borderRadius: '4px', padding: '1rem', fontFamily: 'monospace', fontSize: '0.875rem' }}>
+                                    <strong>To use this component:</strong><br />
+                                    1. Copy the file content from: <code>{selectedComponent.file}</code><br />
+                                    2. Set up a React project with Tailwind CSS<br />
+                                    3. Test in development mode<br /><br />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                );
+            }
+            return (
+                <div className="component-selector">
+                    <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
+                        <h1 style={{ fontSize: '2.5rem', fontWeight: 'bold', color: '#333', marginBottom: '1rem' }}>
+                            UI Component Viewer
+                        </h1>
+                        <p style={{ fontSize: '1.1rem', color: '#666' }}>
+                            Preview available components
+                        </p>
+                    </div>
+                    <div style={{ maxWidth: '800px', margin: '0 auto' }}>
+                        {components.map(component => (
+                            <div key={component.id} className="component-card" onClick={() => setSelectedComponent(component)}>
+                                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start', marginBottom: '1rem' }}>
+                                    <h3 style={{ margin: 0, fontSize: '1.25rem', color: '#333' }}>{component.name}</h3>
+                                    <span className={`status-badge ${component.status.includes('Security') ? 'human' : 'ready'}`}>{component.status}</span>
+                                </div>
+                                <p style={{ margin: '0.5rem 0', color: '#666' }}>{component.description}</p>
+                                <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap', marginTop: '1rem' }}>
+                                    {component.features.map((feature, idx) => (
+                                        <span key={idx} style={{ background: '#f0f0f0', color: '#555', padding: '0.25rem 0.5rem', borderRadius: '4px', fontSize: '0.875rem' }}>{feature}</span>
+                                    ))}
+                                </div>
+                                <div style={{ marginTop: '1rem', padding: '0.5rem', background: '#f8f9fa', borderRadius: '4px', fontSize: '0.875rem', color: '#666', fontFamily: 'monospace' }}>
+                                    {component.file}
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                    <div style={{ textAlign: 'center', marginTop: '3rem', padding: '2rem', background: 'white', borderRadius: '8px', border: '1px solid #e0e0e0' }}>
+                        <h3 style={{ color: '#333' }}>Ready to use?</h3>
+                        <p style={{ color: '#666' }}>Check the <strong>DEPLOYMENT.md</strong> for setup instructions</p>
+                        <div style={{ marginTop: '1rem' }}>
+                            <code style={{ background: '#f0f0f0', padding: '0.5rem 1rem', borderRadius: '4px', color: '#333' }}>
+                                npm run validate
+                            </code>
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+        ReactDOM.render(<ComponentSelector />, document.getElementById('root'));
+    </script>
+</body>
+</html>

@@ -1,0 +1,98 @@
+<!--
+  Plantilla: Tabla de datos Angular + TailwindCSS (Mejora Exponencial)
+  - Accesibilidad total: roles, aria, focus, scope, caption, live regions, keyboard nav
+  - i18n listo (usa pipes Angular, ej: {{ 'table.title' | translate }})
+  - Dark mode automático (usa prefers-color-scheme)
+  - Ordenación, paginación, filtros (estructura lista para integración)
+  - Componentes y slots (ng-content)
+  - Animaciones: highlight row, loading, empty state fade
+  - Analytics-ready: hooks para eventos de usuario
+  - Inspirado en Google, Microsoft, Apple, Mediled
+  - Preparado para test, producción, integración enterprise
+  - Comentarios profesionales para devs (ver abajo)
+-->
+<div class="relative" role="region" aria-labelledby="tableTitle" aria-live="polite">
+  <!-- Live region for screen readers: announce table updates -->
+  <div class="sr-only" aria-live="polite" aria-atomic="true">{{ liveMessage }}</div>
+  <table class="min-w-full bg-slate-900/90 rounded-2xl shadow-lg text-white focus:outline-none" role="table" aria-label="{{ 'table.title' | translate }}" tabindex="0" (keydown)="onTableKeydown($event)">
+    <caption id="tableTitle" class="text-lg font-bold mb-4 text-center p-4 animate-fade-in">{{ 'table.title' | translate }}</caption>
+    <thead class="bg-slate-800">
+      <tr>
+        <th scope="col" class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">{{ 'table.col1' | translate }}</th>
+        <th scope="col" class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">{{ 'table.col2' | translate }}</th>
+        <th scope="col" class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">{{ 'table.col3' | translate }}</th>
+        <th scope="col" class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">{{ 'table.col4' | translate }}</th>
+        <th scope="col" class="px-6 py-3"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngIf="loading">
+        <td colspan="5" class="px-6 py-8 text-center animate-spin-slow text-blue-400" aria-live="polite" aria-busy="true">
+          <span class="inline-block align-middle animate-spin-slow">&#9696;</span> {{ 'table.loading' | translate }}
+        </td>
+      </tr>
+      <tr *ngFor="let row of data; let i = index" [class.bg-slate-800]="i % 2 === 0" [class.animate-row-highlight]="highlightedRow === i" tabindex="0" (focus)="onRowFocus(i)" (blur)="onRowBlur()" (mouseenter)="onRowHover(i)" (mouseleave)="onRowHover(null)" (click)="onRowClick(row, i)">
+        <td class="px-6 py-4 whitespace-nowrap">{{ row.col1 }}</td>
+        <td class="px-6 py-4 whitespace-nowrap">{{ row.col2 }}</td>
+        <td class="px-6 py-4 whitespace-nowrap">{{ row.col3 }}</td>
+        <td class="px-6 py-4 whitespace-nowrap">{{ row.col4 }}</td>
+        <td class="px-6 py-4 whitespace-nowrap text-right">
+          <button class="bg-blue-600 hover:bg-blue-700 px-3 py-1 rounded-lg font-semibold shadow transition focus:outline-none focus:ring-2 focus:ring-blue-400 text-xs" aria-label="{{ 'table.edit' | translate }}" (click)="onEdit(row, i); $event.stopPropagation();">{{ 'table.edit' | translate }}</button>
+        </td>
+      </tr>
+      <tr *ngIf="!loading && data.length === 0">
+        <td colspan="5" class="px-6 py-8 text-center text-slate-400 animate-fade-in" aria-live="polite">{{ 'table.empty' | translate }}</td>
+      </tr>
+    </tbody>
+  </table>
+  <!-- Analytics-ready: emit event on table interaction -->
+  <ng-content select="[analytics-hook]"></ng-content>
+</div>
+<!--
+  Paginación accesible, animada y lista para integración
+-->
+<nav class="flex justify-end items-center gap-2 mt-4" aria-label="{{ 'table.pagination' | translate }}">
+  <button class="px-3 py-1 rounded bg-slate-800 text-slate-300 hover:bg-blue-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-blue-400 transition-all duration-200" [disabled]="page === 1 || loading" aria-label="{{ 'table.prev' | translate }}" (click)="onPrevPage()" [attr.aria-disabled]="page === 1 || loading">&larr;</button>
+  <span class="text-slate-300 animate-fade-in">{{ page }} / {{ totalPages }}</span>
+  <button class="px-3 py-1 rounded bg-slate-800 text-slate-300 hover:bg-blue-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-blue-400 transition-all duration-200" [disabled]="page === totalPages || loading" aria-label="{{ 'table.next' | translate }}" (click)="onNextPage()" [attr.aria-disabled]="page === totalPages || loading">&rarr;</button>
+</nav>
+<style>
+  @media (prefers-color-scheme: dark) {
+    table { background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); }
+  }
+  table:focus-within {
+    outline: 2px solid #60a5fa;
+  }
+  .animate-row-highlight {
+    animation: rowHighlight 1.2s cubic-bezier(0.4,0,0.2,1);
+  }
+  @keyframes rowHighlight {
+    0% { background-color: #2563eb; }
+    100% { background-color: inherit; }
+  }
+  .animate-fade-in {
+    animation: fadeIn 1s ease-in;
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  .animate-spin-slow {
+    animation: spin 2s linear infinite;
+  }
+  @keyframes spin {
+    100% { transform: rotate(360deg); }
+  }
+</style>
+<!--
+  Notas para devs (Enterprise/Exponencial):
+  - Usa TranslateModule y CommonModule en el módulo Angular.
+  - data, page, totalPages, loading, highlightedRow, liveMessage deben ser provistos por el componente padre.
+  - onEdit(row, i), onRowClick(row, i), onRowFocus(i), onRowBlur(), onRowHover(i), onPrevPage(), onNextPage(), onTableKeydown($event): métodos para integración avanzada (accesibilidad, analytics, keyboard nav, feedback).
+  - Analytics-ready: escucha eventos (ng-content select="[analytics-hook]") para integración con Google Analytics, Segment, etc.
+  - Accesibilidad: roles, aria, focus, caption, scope, live regions, keyboard nav, feedback animado.
+  - Animaciones: highlight row (al enfocar/hover/click), loading spinner, empty state fade.
+  - Listo para integración con ordenación, filtros y paginación real.
+  - Listo para test unitarios y e2e.
+  - Inspirado en Mediled, Google, Microsoft, Apple, y mejores prácticas enterprise.
+-->

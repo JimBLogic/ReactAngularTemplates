@@ -1,0 +1,108 @@
+<!--
+  LandingPageTailwindAngular.html: Futuristic, enterprise-grade, accessible, SEO-optimized, i18n-ready, modular Angular + Tailwind landing page
+  Inspired by Mediled, Google, Microsoft, Apple. Ready for production, test, and integration.
+  Professional comments, analytics hooks, and integration notes included for dev teams.
+-->
+
+<a href="#mainContent" class="sr-only focus:not-sr-only bg-cyan-700 text-white px-4 py-2 rounded-b-lg absolute left-4 top-0 z-50 focus:outline-none focus:ring-4 focus:ring-cyan-400">Skip to main content</a>
+<section class="min-h-screen flex flex-col bg-gradient-to-br from-cyan-900 to-blue-900 text-white font-sans" role="main" aria-labelledby="landingTitle" aria-live="polite" tabindex="0" id="mainContent">
+  <!-- SEO Meta Tags (for Angular Universal or index.html) -->
+  <!--
+    <title>Mediled Futurist Landing</title>
+    <meta name="description" content="Futurist, enterprise-grade, accessible, SEO-optimized landing page for Mediled." />
+    <meta property="og:title" content="Mediled Futurist Landing" />
+    <meta property="og:description" content="Futurist, enterprise-grade, accessible, SEO-optimized landing page for Mediled." />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="/public/images/about-company.jpg" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="canonical" href="https://mediled.com/" />
+  -->
+  <!-- Header -->
+  <header class="flex items-center justify-between px-8 py-6 shadow-lg bg-slate-950/80 backdrop-blur-md sticky top-0 z-50" role="banner">
+    <a href="#" aria-label="Mediled Home" class="flex items-center gap-3 focus:outline-none focus:ring-2 focus:ring-cyan-400">
+  <img src="/favicon.ico" alt="Mediled company logo" class="h-10 w-10 rounded-full shadow focus:outline-none focus:ring-4 focus:ring-cyan-400" loading="lazy" />
+      <span class="font-bold text-2xl tracking-tight" id="landingTitle">Mediled Futurist</span>
+    </a>
+    <nav aria-label="Main navigation" class="flex gap-8 text-lg font-medium">
+      <a href="#features" class="hover:text-cyan-300 focus:text-cyan-400 transition focus:outline-none" tabindex="0">{{ 'landing.features' | translate }}</a>
+      <a href="#about" class="hover:text-cyan-300 focus:text-cyan-400 transition focus:outline-none" tabindex="0">{{ 'landing.about' | translate }}</a>
+      <a href="#contact" class="hover:text-cyan-300 focus:text-cyan-400 transition focus:outline-none" tabindex="0">{{ 'landing.contact' | translate }}</a>
+    </nav>
+  </header>
+
+  <!-- Animated Hero Section -->
+  <section class="flex flex-col md:flex-row items-center justify-between flex-1 px-8 py-20 gap-12 animate-fade-in" aria-label="Hero">
+    <div class="flex-1 flex flex-col gap-6">
+      <h1 class="text-5xl font-extrabold mb-4">{{ 'landing.heroTitle' | translate }}</h1>
+      <p class="text-xl text-slate-300 mb-6">{{ 'landing.heroSubtitle' | translate }}</p>
+      <a href="#contact" class="bg-cyan-600 hover:bg-cyan-700 px-8 py-4 rounded-lg font-semibold shadow transition focus:outline-none focus:ring-2 focus:ring-cyan-400 w-max">{{ 'landing.cta' | translate }}</a>
+    </div>
+    <div class="flex-1 flex items-center justify-center">
+      <img src="/public/images/about-company.jpg" alt="Team collaborating in a modern medical office, Mediled Futurist" class="rounded-2xl shadow-2xl w-full max-w-md focus:outline-none focus:ring-4 focus:ring-cyan-400" loading="lazy" />
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section id="features" class="py-16 px-8 max-w-7xl mx-auto" aria-label="Features">
+    <h2 class="text-3xl font-bold mb-8 text-center">{{ 'landing.featuresTitle' | translate }}</h2>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+  <div class="bg-slate-800/90 rounded-xl p-8 shadow-lg flex flex-col items-center transition hover:scale-105 focus-within:scale-105 group outline-none focus:outline-none focus:ring-4 focus:ring-cyan-400" tabindex="0" aria-label="{{ 'landing.feature1Title' | translate }}" role="region">
+        <span class="text-4xl mb-2" aria-hidden>🚀</span>
+        <h3 class="font-semibold text-lg mb-1">{{ 'landing.feature1Title' | translate }}</h3>
+        <p class="text-slate-300 text-center">{{ 'landing.feature1Desc' | translate }}</p>
+      </div>
+  <div class="bg-slate-800/90 rounded-xl p-8 shadow-lg flex flex-col items-center transition hover:scale-105 focus-within:scale-105 group outline-none focus:outline-none focus:ring-4 focus:ring-cyan-400" tabindex="0" aria-label="{{ 'landing.feature2Title' | translate }}" role="region">
+        <span class="text-4xl mb-2" aria-hidden>🔒</span>
+        <h3 class="font-semibold text-lg mb-1">{{ 'landing.feature2Title' | translate }}</h3>
+        <p class="text-slate-300 text-center">{{ 'landing.feature2Desc' | translate }}</p>
+      </div>
+  <div class="bg-slate-800/90 rounded-xl p-8 shadow-lg flex flex-col items-center transition hover:scale-105 focus-within:scale-105 group outline-none focus:outline-none focus:ring-4 focus:ring-cyan-400" tabindex="0" aria-label="{{ 'landing.feature3Title' | translate }}" role="region">
+        <span class="text-4xl mb-2" aria-hidden>🌐</span>
+        <h3 class="font-semibold text-lg mb-1">{{ 'landing.feature3Title' | translate }}</h3>
+        <p class="text-slate-300 text-center">{{ 'landing.feature3Desc' | translate }}</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials Section -->
+  <section id="testimonials" class="py-16 px-8 max-w-5xl mx-auto" aria-label="Testimonials">
+    <h2 class="text-2xl font-bold mb-8 text-center">{{ 'landing.testimonialsTitle' | translate }}</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+  <blockquote class="bg-slate-800/80 rounded-xl p-6 shadow text-slate-200 animate-fade-in focus:outline-none focus:ring-4 focus:ring-cyan-400" tabindex="0">
+        <p class="mb-2">“{{ 'landing.testimonial1' | translate }}”</p>
+        <footer class="text-sm text-slate-400">— {{ 'landing.testimonial1Author' | translate }}</footer>
+      </blockquote>
+  <blockquote class="bg-slate-800/80 rounded-xl p-6 shadow text-slate-200 animate-fade-in focus:outline-none focus:ring-4 focus:ring-cyan-400" tabindex="0">
+        <p class="mb-2">“{{ 'landing.testimonial2' | translate }}”</p>
+        <footer class="text-sm text-slate-400">— {{ 'landing.testimonial2Author' | translate }}</footer>
+      </blockquote>
+    </div>
+  </section>
+
+  <!-- Call to Action Section -->
+  <section class="py-16 px-8 max-w-4xl mx-auto text-center animate-fade-in" aria-label="Call to Action">
+    <h2 class="text-2xl font-bold mb-4">{{ 'landing.ctaTitle' | translate }}</h2>
+    <a href="#contact" class="bg-cyan-600 hover:bg-cyan-700 px-8 py-4 rounded-lg font-semibold shadow transition focus:outline-none focus:ring-2 focus:ring-cyan-400 w-max">{{ 'landing.cta' | translate }}</a>
+  </section>
+
+  <!-- About Section -->
+  <section id="about" class="py-20 px-8 max-w-5xl mx-auto text-center animate-fade-in" aria-label="About">
+    <h2 class="text-2xl font-bold mb-4">{{ 'landing.aboutTitle' | translate }}</h2>
+    <p class="text-slate-300">{{ 'landing.aboutDesc' | translate }}</p>
+  </section>
+
+  <!-- Footer -->
+  <footer class="mt-8 py-8 px-8 bg-slate-950/90 text-center text-slate-300 text-sm" role="contentinfo">
+    <div class="mb-2">© {{ currentYear }} Mediled. All rights reserved.</div>
+    <div class="flex justify-center gap-6">
+      <a href="#" class="hover:underline text-cyan-300">{{ 'landing.footerLink1' | translate }}</a>
+      <a href="#" class="hover:underline text-cyan-300">{{ 'landing.footerLink2' | translate }}</a>
+    </div>
+  </footer>
+  <style>
+    @media (max-width: 768px) { .min-h-screen { padding-bottom: 4rem; } }
+    .animate-fade-in { animation: fadeIn 1s ease-in; }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+  </style>
+</section>

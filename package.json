@@ -1,0 +1,66 @@
+{
+  "name": "frontend-ui-components",
+  "version": "2.0.0",
+  "description": "React and Angular UI components for business apps, styled with Tailwind CSS.",
+  "private": true,
+  "type": "module",
+  "scripts": {
+  "dev": "echo 'UI components ready - check README for setup'",
+    "build": "tsc --noEmit && echo 'Type check passed'",
+    "type-check": "tsc --noEmit",
+  "validate": "npm run type-check && echo 'Components validated'",
+  "test": "echo 'Run tests in your project after copying components'",
+    
+  "preview": "echo 'Open template-viewer.html to preview components'"
+  },
+  "dependencies": {
+    "i18next": "^25.5.2",
+    "react": ">=18.0.0",
+    "react-dom": ">=18.0.0",
+    "react-helmet-async": "^2.0.5",
+    "react-i18next": "^15.7.3"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.0",
+    "@types/react-dom": "^18.2.0",
+    "autoprefixer": "^10.4.0",
+    "postcss": "^8.4.0",
+    "tailwindcss": "^3.3.0",
+    "typescript": "^5.0.0"
+  },
+  "peerDependencies": {
+    "react": ">=18.0.0",
+    "react-dom": ">=18.0.0",
+    "tailwindcss": ">=3.0.0"
+  },
+  "keywords": [
+    "react",
+    "angular", 
+    "tailwind",
+  "components",
+    "accessibility",
+    "ui-components",
+
+    "frontend"
+  ],
+  "engines": {
+    "node": ">=16.0.0",
+    "npm": ">=8.0.0"
+  },
+    "author": {
+      "name": "Frontend Team"
+    },
+  "license": "MIT",
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}
