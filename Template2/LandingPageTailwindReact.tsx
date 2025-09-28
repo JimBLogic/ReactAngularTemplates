@@ -29,9 +29,8 @@ const FeatureCard: React.FC<{ icon: string; title: string; children: React.React
         transform: `scale(${isHovered ? 1.05 : 1})`,
         transition: animations.transitions.smooth
       }}
-      onMouseEnter={hoverProps.onMouseEnter}
-      onMouseLeave={hoverProps.onMouseLeave}
-  onMouseDown={clickProps.onMouseDown}
+  onMouseEnter={hoverProps.onMouseEnter}
+  onMouseLeave={hoverProps.onMouseLeave}
     >
       <span 
         className="text-5xl mb-4 transition-transform duration-300" 
@@ -50,7 +49,10 @@ const FeatureCard: React.FC<{ icon: string; title: string; children: React.React
 });
 
 const FeaturesSection: React.FC<{ t: (key: string) => string }> = React.memo(({ t }) => {
-  const [ref, isVisible] = performanceOptimizations.useLazyLoading(0.1);
+  // const [ref, isVisible] = performanceOptimizations.useLazyLoading(0.1);
+  // useLazyLoading removed: not defined in performanceOptimizations. Replace with fallback:
+  const ref = React.useRef(null);
+  const isVisible = true;
   
   return (
     <section 
