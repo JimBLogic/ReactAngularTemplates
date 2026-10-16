@@ -40,3 +40,8 @@ jobs:
         run: npm test
       - name: Fail on current high/critical production npm advisories
         run: npm audit --omit=dev --audit-level=high
+      - name: Audit development/build-tool dependencies (advisory, existing backlog)
+        # Existing dev dependency advisories are investigated separately.
+        # Do not present a green production audit as a full-toolchain clearance.
+        continue-on-error: true
+        run: npm audit --audit-level=high

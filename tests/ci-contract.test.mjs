@@ -49,4 +49,5 @@ test('CI checks Node 22 and 24, uses npm ci and fail-closed audit', () => {
   assert.match(workflow, /npm run validate/);
   assert.match(workflow, /npm test/);
   assert.match(workflow, /npm audit --omit=dev --audit-level=high/);
+  assert.match(workflow, /npm audit --audit-level=high/);
 });

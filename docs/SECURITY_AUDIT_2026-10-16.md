@@ -26,3 +26,7 @@ First candidate [GitHub Actions #38864627270](https://github.com/JimBLogic/React
 ## Follow-up CI result: direct dependency range drift
 
 [CI #38864754919](https://github.com/JimBLogic/ReactAngularTemplates/actions/runs/38864754919) passed active TypeScript validation but exposed a **real root package/lock discrepancy**: `package.json` declared React and ReactDOM `>=18.0.0`, whereas the committed lockfile declares `^18.2.0`. The candidate explicitly aligns the package manifest to the already locked React 18.2 range, retaining React 18-focused types and the permissive **peerDependency** ranges for consumers. This is a reproducibility decision, not a React19 migration or a new generated bundle. Reverify in subsequent CI.
+
+## Development dependency exposure detected by real CI
+
+[Run #38864887223](https://github.com/JimBLogic/ReactAngularTemplates/actions/runs/38864887223) confirmed TypeScript and **5/5 contract tests per Node version** and **0 npm vulnerabilities in production-only packages**. However the `npm ci` installation reports **16 total advisories (13 high, 3 moderate)** among all dependencies, which likely includes development tooling. Candidate CI now includes an explicitly labeled **full npm audit advisory** step to surface details without claiming an all-green supply-chain posture. Until separately patched and fully tested, the dev toolchain remains a documented security backlog; the no-deploy component catalog is not declared production-certified.
