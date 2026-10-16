@@ -2,37 +2,41 @@ name: Node.js CI
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
-    branches: [ main ]
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ui-template-ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-
+  validate:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
     strategy:
+      fail-fast: false
       matrix:
-        node-version: [18.x, 20.x]
+        node-version: ['22', '24']
 
     steps:
-    - uses: actions/checkout@v4
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v4
-      with:
-        node-version: ${{ matrix.node-version }}
-    - name: Install dependencies
-      run: npm install
-    - name: Type check
-      run: npm run validate
-    - name: Build (if applicable)
-      run: |
-        if [ -f tsconfig.json ]; then
-          npm run build
-        fi
-    - name: Lint (if applicable)
-      run: |
-        if [ -f package.json ] && jq -e '.scripts.lint' package.json > /dev/null; then
-          npm run lint
-        else
-          echo "No lint script defined."
-        fi
+      - name: Checkout exact source without persisted credentials
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+      - name: Set up supported Node.js runtime
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: npm
+      - name: Install exact lockfile without package lifecycle scripts
+        run: npm ci --ignore-scripts
+      - name: Validate TypeScript source
+        run: npm run validate
+      - name: Check repository build and supply-chain contracts
+        run: npm test
+      - name: Fail on current high/critical production npm advisories
+        run: npm audit --omit=dev --audit-level=high

@@ -1,80 +1,34 @@
-# Deployment Guide
+# Template integration guide (no standalone deployment)
 
-Simple deployment instructions for the frontend templates.
+This repository distributes **source components**, not a complete React or Angular app. `npm run build` runs `tsc --noEmit` and intentionally does **not** create `build/`, `dist/` or deployable static files. There is no `npm start` server.
 
-## Quick Deploy
+## Reproducible local checks
 
-### React Project
+On Node.js 22 or 24:
+
 ```bash
-# 1. Create new React app
-npx create-react-app my-app --template typescript
-cd my-app
-
-# 2. Install Tailwind CSS
-npm install tailwindcss autoprefixer postcss
-npx tailwindcss init -p
-
-# 3. Copy templates
-cp ../frontend-templates/Template1/DashboardTailwindReact.tsx src/components/
-
-# 4. Start development
-npm start
-```
-
-### Production Build
-```bash
-# Build for production
+npm ci
+npm run validate
+npm test
 npm run build
-
-# Serve with any static server
-npx serve -s build
 ```
 
-## Docker Deployment
+Open `component-viewer.html` in a browser to inspect the static examples. This preview alone does not test the components in a real app, and no browser automation or accessibility certification is claimed.
 
-```dockerfile
-FROM node:18-alpine
-WORKDIR /app
-COPY package*.json ./
-RUN npm ci --only=production
-COPY . .
-RUN npm run build
-EXPOSE 3000
-CMD ["npm", "start"]
-```
+## Using the components
 
-```bash
-# Build and run
-docker build -t my-ui-components .
-docker run -p 3000:3000 my-ui-components
-```
+Create an independent, maintained React or Angular project, using that framework's supported tooling and versions. Copy an individual source component and its relevant styles/assets from `Template1/`, `Template2/` or `Template3/`; adapt imports, peer dependencies, translations, validation and Tailwind configuration in the **consumer** project.
 
-## Environment Variables
+For React, ensure the host's React/ReactDOM and Tailwind versions match its own toolchain. For Angular, HTML examples require adaptation into a properly configured Angular component/module and are not independently executable applications.
 
-Create `.env` file (copy from `.env.example`):
+The consumer app is responsible for its own authentication, API secrets, CSP, input validation, testing, image/accessibility QA, bundling and deployment.
 
-```bash
-REACT_APP_API_URL=https://your-api.com
-REACT_APP_ENABLE_ANALYTICS=true
+## Docker / production
 
-```
+Do not treat the previous Node 18 Docker example as a supported production release for this repository. Because no web server or bundler is included, running `npm start` in a Docker container cannot serve these templates.
 
+If you build a separate app from the components, use **that app's** documented build, tests, runtime, supported LTS Node version, HTTPS/reverse proxy configuration and deployment strategy. Never include private `.env` files or secrets in a frontend bundle.
 
+## Security and scope
 
-## Common Issues
-
-**Q: Components not loading?**
-```bash
-# Check dependencies
-npm list react tailwindcss
-```
-
-
-
-**Q: Styling not working?**
-- Ensure Tailwind CSS is configured in `tailwind.config.js`
-- Add Tailwind directives to your CSS file
-
-## That's It!
-
-For complex enterprise deployments, CI/CD pipelines, or advanced configurations, you'll need to set those up based on your specific requirements.
+The audit candidate fixes CI reproducibility and truthfulness only; it does not promise that copied components are vulnerability-free, production-ready or accessibility-certified. See `docs/SECURITY_AUDIT_2026-10-16.md`.

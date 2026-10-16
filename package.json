@@ -5,13 +5,12 @@
   "private": true,
   "type": "module",
   "scripts": {
-  "dev": "echo 'UI components ready - check README for setup'",
-    "build": "tsc --noEmit && echo 'Type check passed'",
+    "dev": "echo 'Component library only: open component-viewer.html in a browser; no dev server is bundled.'",
+    "build": "tsc --noEmit && echo 'Type validation passed; no deployable bundle is emitted.'",
     "type-check": "tsc --noEmit",
-  "validate": "npm run type-check && echo 'Components validated'",
-  "test": "echo 'Run tests in your project after copying components'",
-    
-  "preview": "echo 'Open template-viewer.html to preview components'"
+    "validate": "npm run type-check && echo 'Components validated'",
+    "test": "node --test tests/ci-contract.test.mjs",
+    "preview": "echo 'Open component-viewer.html to preview components.'"
   },
   "dependencies": {
     "i18next": "^25.5.2",
@@ -35,21 +34,20 @@
   },
   "keywords": [
     "react",
-    "angular", 
+    "angular",
     "tailwind",
-  "components",
+    "components",
     "accessibility",
     "ui-components",
-
     "frontend"
   ],
   "engines": {
     "node": ">=16.0.0",
     "npm": ">=8.0.0"
   },
-    "author": {
-      "name": "Frontend Team"
-    },
+  "author": {
+    "name": "Frontend Team"
+  },
   "license": "MIT",
   "browserslist": {
     "production": [
