@@ -13,7 +13,7 @@
 
 - Upgrade GitHub Actions to exact verified official full commit SHAs for `checkout v7` and `setup-node v7` (Node24 action runtime), fix runner to Ubuntu 24.04 and run tests against Node 22/24 with read-only token and no persistent checkout credentials.
 - Replace `npm install` with `npm ci --ignore-scripts`, use existing lockfile and fail CI on current high/critical production dependency advisories with `npm audit --omit=dev --audit-level=high`.
-- Replace placeholder npm test with four Node native dependency-free repository/CI assertions: component-library scope, exact dependency+lock congruence and integrity, immutable Actions/permission restrictions, supported CI versions and npm audit gate.
+- Replace placeholder npm test with five Node native dependency-free repository/CI assertions: component-library scope, exact dependency+lock congruence and integrity, immutable Actions/permission restrictions, supported CI versions and npm audit gate.
 - Correct README, preview script and deployment guide to distinguish an editable component catalog from an application bundle. No framework migration, deployment config or user data touched.
 
 ## Evidence gates
@@ -30,3 +30,11 @@ First candidate [GitHub Actions #38864627270](https://github.com/JimBLogic/React
 ## Development dependency exposure detected by real CI
 
 [Run #38864887223](https://github.com/JimBLogic/ReactAngularTemplates/actions/runs/38864887223) confirmed TypeScript and **5/5 contract tests per Node version** and **0 npm vulnerabilities in production-only packages**. However the `npm ci` installation reports **16 total advisories (13 high, 3 moderate)** among all dependencies, which likely includes development tooling. Candidate CI now includes an explicitly labeled **full npm audit advisory** step to surface details without claiming an all-green supply-chain posture. Until separately patched and fully tested, the dev toolchain remains a documented security backlog; the no-deploy component catalog is not declared production-certified.
+
+## Compatible transitive dependency remediation — real GitHub evidence
+
+- A full-toolchain audit in [CI #38865150213](https://github.com/JimBLogic/ReactAngularTemplates/actions/runs/38865150213) identified **16 affected package entries: 13 high, 3 moderate**. Production `npm audit --omit=dev --audit-level=high` detected **0**. Vulnerabilities were concentrated in the development/build ecosystem (Tailwind CSS 3, transitive glob, PostCSS, browserslist and others), not a demonstrably exploitable deployed application.
+- [Isolated lockfile experiment #38865353307](https://github.com/JimBLogic/ReactAngularTemplates/actions/runs/38865353307): both read-only resolution and single-file candidate-branch writer jobs SUCCESS. `npm audit fix --package-lock-only --ignore-scripts` (**without --force**) updated only npm-compatible transitive packages and produced a lockfile that passed `npm ci`, active TypeScript checks, **5/5 repository tests**, and production audit with **0 findings**.
+- The full toolchain audit improved to **7 affected package entries: 5 high, 2 moderate**. Current candidate lock includes Tailwind **3.4.19**, PostCSS **8.5.30**, source-map-js **1.2.2**, and Browserslist **4.29.3**. Remaining high-severity advisory chain points to Tailwind v3 and glob dependencies; npm recommends **Tailwind v4.3.3** for a complete major-version fix. **Do not force-upgrade to Tailwind 4** without migrating classes/config, validating real components, and performing browser/mobile QA.
+- The one-shot branch writer was **removed** from the final PR diff. It did not touch main, publish, or deploy. The permanent CI still reports all-dependency audit results under an explicitly labeled **advisory** step; a green production audit is **not** a full-toolchain security clearance.
+- The final candidate PR run after removal must pass before any GO-for-review claim. Due to unresolved dev tooling advisories, recommend NO-GO for packaging these templates as a broadly trusted production build toolchain.
