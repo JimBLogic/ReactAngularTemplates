@@ -19,3 +19,7 @@
 ## Evidence gates
 
 Candidate GitHub PR CI to be verified using exact run IDs, job logs and head SHA. If CI finds pre-existing TypeScript or npm vulnerabilities, record them as unresolved rather than claiming a pass or suppressing the failing security check. Scope remains DRAFT. No actual browser/mobile QA or consumer-app integration is performed.
+
+## CI discovery: legacy archive is not an active build input
+
+First candidate [GitHub Actions #38864627270](https://github.com/JimBLogic/ReactAngularTemplates/actions/runs/38864627270) revealed **TS2307** from the two archived `DashboardTailwindReact.old.tsx` imports of non-existent `../devsecops-security`. No security module was invented and no archived component was removed. The TypeScript project now explicitly excludes archived `Template1/**/*.old.tsx` and `Template2/**/*.old.tsx` while validating current `.tsx` files. The historical sources are retained **unvalidated** and must not be copied as working secure components without a separate migration. This change still requires fresh CI.

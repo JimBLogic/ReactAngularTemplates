@@ -25,6 +25,14 @@ test('tracked npm lock matches direct dependencies and uses integrity hashes', (
   }
 });
 
+test('active catalog typecheck excludes only archived .old.tsx components', () => {
+  const tsconfig = JSON.parse(readFileSync('tsconfig.json', 'utf8'));
+  assert.ok(tsconfig.include.some(x=>x.startsWith('Template1/')));
+  assert.ok(tsconfig.include.some(x=>x.startsWith('Template2/')));
+  assert.ok(tsconfig.exclude.includes('Template1/**/*.old.tsx'));
+  assert.ok(tsconfig.exclude.includes('Template2/**/*.old.tsx'));
+});
+
 test('CI uses immutable official Actions revisions and has no publication rights', () => {
   const actionUses = [...workflow.matchAll(/^\s+uses:\s+([^\s#]+)/gm)].map(x => x[1]);
   assert.equal(actionUses.length, 2);

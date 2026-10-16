@@ -25,6 +25,8 @@
     "Template2/**/*"
   ],
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "Template1/**/*.old.tsx",
+    "Template2/**/*.old.tsx"
   ]
 }
